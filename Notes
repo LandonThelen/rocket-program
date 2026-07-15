@@ -1,0 +1,69 @@
+Main Functions / Features (If marked with * still in development):
+- Create and save multi stage rockets with seperation controlled by time or position
+- Test differnt rockets with physics based simulations of interplanetary travel
+- * Models the solar system with planets and moons that realistically orbit around the sun
+
+-----ROCKETS-----
+Rockets are built in stages, with each stage able to contain
+-Thrust Element
+-Payload
+-Fuel Storage
+
+along with variables
+-exposed reference area
+-drag coefficeint
+-dry mass
+-wet mass
+-payload mass
+
+Each rocket object also has the following attributes
+x.pos, x.vel, x.acl
+y.pos, y.vel, y.acl
+z.pos, z.vel, z.acl
+
+As of now, the angles theta and rho, with theta acting in the xy plane and rho acting about the z axis is only adjustable by adding an event marker in the flight log (more info below)
+This is for simplicity and will be addressed in a future update (see more below)
+
+Flight Log
+Before launching a rocket, the program will ask you to build a flight log. You can currently add rotational events and stage events, which can be triggered by height or time since launch. 
+A rotational event will let you adjust the direction that the rocket is pointing at a specific time or position, it should be noted that this is relative to the sun, theta acts on the xy axis which is the plane on which the sun and planets sit on (with some variance in the z), and rho adjusts the "pitch" of the spacecraft, such that a rho of either 0 or 180 would set you normal to the xy plane and have you fly away from the solar system
+A staging event will let you decouple the bottom stage, shut off / turn on thrusters, or jettison a payload at a specific time or position. Currently payloads / decoupled stages are not simulated, and "vanish" from the simulation after being removed. May add multi object tracking in a later update
+
+-----PLANETS-----
+Each planet object contains:
+-Mass
+-Radius
+-Moon list
+-Name
+
+along with the attributes
+x.pos, x.vel, x.acl
+y...
+z...
+x.span
+y.span
+z.span
+orbit.period
+
+the x y and z spans are used to detect collision with an object
+moons are similar to planets but have no moon list and have a planet.parent attribute
+In order to save myself the trouble of having more than 2 large bodies acting on one and other for an extended period of time, each body is only influenced by one other body. Planets are influenced by the sun, and moons are only influenced by their parent planet
+The orbit of planets and moons are consistant and are found by using a very fun equation that will be located in the Program section when I decide to think about it hard enough. 
+
+The earth has a few special additional variables that the rest of the planets currently do not have
+Using data provided by NASA, the earth has atmospheric drag that varies with height. Currently looking into implementing an atmosphere on other planets, possibly with varying pressures given height
+
+The sun acts as the origin of the solar system, with its center being 0,0,0 and the coordinate system being directly based off of it. The sun has no velocity or acceleration attributes, although that could be added in a later update as in the real world it does slightly revolve around a point within its volume.
+
+-----PROGRAM-----
+I haven't thought about this hard enough yet
+
+-----FEATURE WISHLIST-----
+-Planet spin and tilt attributes
+-Sun movement
+-Atmospheres on more planets
+-Multiple object tracking
+-True Pitch/Yaw/Roll and RCS thruster simulation on rockets
+-More conditional activators on Flight Log (velocity / acceleration)
+-Landing
+-GUI to have a better visual of rocket movement
